@@ -158,7 +158,8 @@ public class LookFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
-        queryZhiHuNews();
+       queryZhiHuNews();
+       // DataSupport.deleteAll(ZhihuBeforeNews.class);
         //queryFromServer("http://news-at.zhihu.com/api/4/news/before/20170122");
        // GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),1);
         //adapter=new PictureAdapter(dataList);

@@ -23,12 +23,14 @@ public class Utility {
 
         if (!TextUtils.isEmpty(response)){
             String realResponse='['+response+']';
-
+            String stories=null;
             try {
                 JSONArray jsonArray=new JSONArray(realResponse);
                 for (int i=0;i<jsonArray.length();i++){
                     JSONObject jsonObject=jsonArray.getJSONObject(i);
-                    String stories=jsonObject.getString("stories");
+                    stories=jsonObject.getString("stories");
+                }
+                if (stories!=null){
                     handleZhihuStories(stories);
                 }
                 return true;
