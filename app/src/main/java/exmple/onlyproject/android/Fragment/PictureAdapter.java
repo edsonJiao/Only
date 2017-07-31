@@ -21,17 +21,17 @@ import exmple.onlyproject.android.db.ZhihuBeforeNews;
 
 public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHolder> {
     private Context context;
-    private List<ZhihuBeforeNews> mPictureList;
+    private List<Picture> mPictureList;
     static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView picImage;
+       // ImageView picImage;
         TextView picText;
         public ViewHolder(View view){
             super(view);
-            picImage=(ImageView)view.findViewById(R.id.pic_image);
+         //   picImage=(ImageView)view.findViewById(R.id.pic_image);
             picText=(TextView)view.findViewById(R.id.pic_name);
         }
     }
-    public PictureAdapter(List<ZhihuBeforeNews>pictureList){
+    public PictureAdapter(List<Picture>pictureList){
         mPictureList=pictureList;
     }
     @Override
@@ -44,9 +44,9 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     }
     @Override
     public void onBindViewHolder(ViewHolder holder,int position){
-        ZhihuBeforeNews picture=mPictureList.get(position);
+        Picture picture=mPictureList.get(position);
         holder.picText.setText(picture.getTitle());
-        Glide.with(context).load(picture.getImageUir()).into(holder.picImage);
+       // Glide.with(context).load(picture.getImageUir()).into(holder.picImage);
     }
     @Override
     public int getItemCount(){

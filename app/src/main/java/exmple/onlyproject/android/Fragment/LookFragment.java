@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,24 +37,59 @@ import okhttp3.Response;
 public class LookFragment extends Fragment {
     private ProgressDialog progressDialog;
     private List<ZhihuBeforeNews> newsList;
+    private List<Picture>  dataList=new ArrayList<>();
     private ZhihuBeforeNews selectedNews;
     private PictureAdapter adapter;
+  //  private List<String> exampleList=new ArrayList<>();
+  //  private ArrayAdapter<String>exampleAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle saveInstanceState){
         View view=inflater.inflate(R.layout.fragment_look,container,false);
-      //  RecyclerView recyclerView=(RecyclerView)view.findViewById(R.id.look_recyclerview);
+        recyclerView=(RecyclerView) view.findViewById(R.id.look_recyclerview);
+       // GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),1);
+        //exampleAdapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,exampleList);
 
+
+        //recyclerView.setAdapter(exampleAdapter);
+         GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),1);
+        adapter=new PictureAdapter(dataList);
+         recyclerView.setLayoutManager(layoutManager);
+         recyclerView.setAdapter(adapter);
 
         //queryFromServer("http://guolin.tech/api/china/16");
-        queryFromServer("http://news-at.zhihu.com/api/4/news/before/20170122");
+        //queryZhiHuNews();
+        //queryFromServer("http://news-at.zhihu.com/api/4/news/before/20170122");
+
         return view;
+    }
+    /**
+     * 查询知乎日报的信息，优先从数据库中查询，若没有就从服务器中查询
+     */
+    public void queryZhiHuNews(){
+        newsList=DataSupport.findAll(ZhihuBeforeNews.class);
+       if (newsList.size()>0){
+          // exampleList.clear();
+            dataList.clear();
+            for (ZhihuBeforeNews zhihuBeforeNews:newsList){
+            //    exampleList.add(zhihuBeforeNews.getTitle());
+                dataList.add(new Picture(zhihuBeforeNews.getTitle(),zhihuBeforeNews.getId()));
+            }
+            adapter.notifyDataSetChanged();
+           // exampleAdapter.notifyDataSetChanged();
+           // recyclerView.setSelection(0);
+        }else {
+            queryFromServer("http://news-at.zhihu.com/api/4/news/before/20170122");
+        }
+
     }
 
     /**
@@ -85,6 +122,8 @@ public class LookFragment extends Fragment {
                         @Override
                         public void run() {
                             closeProgressDialog();
+
+
                         }
                     });
                 }
@@ -115,5 +154,15 @@ public class LookFragment extends Fragment {
         if (progressDialog!=null){
             progressDialog.dismiss();
         }
+    }
+    @Override
+    public void onActivityCreated(Bundle saveInstanceState){
+        super.onActivityCreated(saveInstanceState);
+        queryZhiHuNews();
+        //queryFromServer("http://news-at.zhihu.com/api/4/news/before/20170122");
+       // GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),1);
+        //adapter=new PictureAdapter(dataList);
+       // recyclerView.setLayoutManager(layoutManager);
+       // recyclerView.setAdapter(adapter);
     }
 }

@@ -23,6 +23,7 @@ public class Utility {
 
         if (!TextUtils.isEmpty(response)){
             String realResponse='['+response+']';
+
             try {
                 JSONArray jsonArray=new JSONArray(realResponse);
                 for (int i=0;i<jsonArray.length();i++){
@@ -51,7 +52,7 @@ public class Utility {
                 beforeNews.setId(jsonObject.getInt("id"));
                 beforeNews.setTitle(jsonObject.getString("title"));
                 //此时的imageUri的http地址外含有[]
-                beforeNews.setImageUir(jsonObject.getString("images"));
+                //beforeNews.setImageUir(jsonObject.getString("images"));
                 beforeNews.save();
             }
         }catch (JSONException e){
