@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">OnlyProject</string>
+    <string name="tab_one">Look</string>
+    <string name="tab_two">Book</string>
+    <string name="tab_three">Music</string>
+    <string name="tab_four">Movie</string>
+</resources>
